@@ -1,9 +1,10 @@
 {
     "name": "@styla/mailgun",
-    "version": "5.0.9",
+    "version": "5.0.10",
     "author": "Mailgun",
     "main": "src/index.ts",
     "license": "MIT",
+    "type": "module",
     "keywords": [
         "mailgun",
         "email"
