@@ -1,6 +1,6 @@
 {
     "name": "@styla/mailgun",
-    "version": "5.0.6",
+    "version": "5.0.7",
     "author": "Mailgun",
     "main": "dist/index.js",
     "license": "MIT",
