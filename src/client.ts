@@ -33,7 +33,7 @@ export default class Client {
     public ips;
     public ip_pools;
     public lists;
-    private request;
+    private readonly request;
 
     constructor(
         options: Options,

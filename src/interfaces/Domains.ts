@@ -130,10 +130,6 @@ export interface WebPrefixInfo {
     webPrefix: string;
 }
 
-export interface UpdatedWebPrefix {
-    message: string;
-}
-
 export interface UpdatedWebPrefixResponse {
     body: MessageResponse,
     status: number

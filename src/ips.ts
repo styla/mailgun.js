@@ -8,17 +8,17 @@ export default class IpsClient {
         this.request = request;
     }
 
+    private static parseIpsResponse(response: { body: IpsListResponseBody | IpData }) {
+        return response.body;
+    }
+
     list(query: any) {
         return this.request.get('/v3/ips', query)
-                   .then((response: { body: IpsListResponseBody }) => this.parseIpsResponse(response));
+                   .then((response: { body: IpsListResponseBody }) => IpsClient.parseIpsResponse(response));
     }
 
     get(ip: string) {
         return this.request.get(`/v3/ips/${ ip }`)
-                   .then((response: { body: IpData }) => this.parseIpsResponse(response));
-    }
-
-    private parseIpsResponse(response: { body: IpsListResponseBody | IpData }) {
-        return response.body;
+                   .then((response: { body: IpData }) => IpsClient.parseIpsResponse(response));
     }
 }

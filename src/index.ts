@@ -3,7 +3,7 @@ import { InputFormData } from './interfaces/IFormData';
 import Options from './interfaces/Options';
 
 class Mailgun {
-    private formData: InputFormData;
+    private readonly formData: InputFormData;
 
     constructor(FormData: InputFormData) {
         this.formData = FormData;

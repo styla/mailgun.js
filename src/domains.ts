@@ -97,6 +97,26 @@ export default class DomainClient {
         this.domainTags = domainTagsClient;
     }
 
+    private static _parseMessage(response: DestroyedDomainResponse): MessageResponse {
+        return response.body;
+    }
+
+    private static _parseDomain(response: DomainResponseData): Domain {
+        return new Domain(
+            response.body.domain,
+            response.body.receiving_dns_records,
+            response.body.sending_dns_records,
+        );
+    }
+
+    private static _parseTrackingSettings(response: DomainTrackingResponse): DomainTrackingData {
+        return response.body.tracking;
+    }
+
+    private static _parseTrackingUpdate(response: UpdateDomainTrackingResponse): UpdatedOpenTracking {
+        return response.body;
+    }
+
     list(query?: DomainsQuery): Promise<Domain[]> {
         return this.request.get('/v3/domains', query)
                    .then((res: APIResponse) => this._parseDomainList(res as DomainListResponseData));
@@ -104,7 +124,7 @@ export default class DomainClient {
 
     get(domain: string): Promise<Domain> {
         return this.request.get(`/v3/domains/${ domain }`)
-                   .then((res: APIResponse) => this._parseDomain(res as DomainResponseData));
+                   .then((res: APIResponse) => DomainClient._parseDomain(res as DomainResponseData));
     }
 
     create(data: DomainInfo): Promise<Domain> {
@@ -114,12 +134,12 @@ export default class DomainClient {
         }
 
         return this.request.postWithFD('/v3/domains', postObj)
-                   .then((res: APIResponse) => this._parseDomain(res as DomainResponseData));
+                   .then((res: APIResponse) => DomainClient._parseDomain(res as DomainResponseData));
     }
 
     destroy(domain: string): Promise<MessageResponse> {
         return this.request.delete(`/v3/domains/${ domain }`)
-                   .then((res: APIResponse) => this._parseMessage(res as DestroyedDomainResponse));
+                   .then((res: APIResponse) => DomainClient._parseMessage(res as DestroyedDomainResponse));
     }
 
     getConnection(domain: string): Promise<ConnectionSettings> {
@@ -139,29 +159,26 @@ export default class DomainClient {
 
     getTracking(domain: string): Promise<DomainTrackingData> {
         return this.request.get(urljoin('/v3/domains', domain, 'tracking'))
-                   .then(this._parseTrackingSettings);
+                   .then(DomainClient._parseTrackingSettings);
     }
+
+    // Tracking
 
     updateTracking(
         domain: string,
         type: string,
         data: OpenTrackingInfo | ClickTrackingInfo | UnsubscribeTrackingInfo,
     ): Promise<UpdatedOpenTracking> {
-        if (typeof data?.active === 'boolean') {
-            throw new APIError({
-                status: 400,
-                statusText: '',
-                body: { message: 'Property "active" must contain string value.' },
-            } as APIErrorOptions);
-        }
         return this.request.putWithFD(urljoin('/v3/domains', domain, 'tracking', type), data)
-                   .then((res: APIResponse) => this._parseTrackingUpdate(res as UpdateDomainTrackingResponse));
+                   .then((res: APIResponse) => DomainClient._parseTrackingUpdate(res as UpdateDomainTrackingResponse));
     }
 
     getIps(domain: string): Promise<string[]> {
         return this.request.get(urljoin('/v3/domains', domain, 'ips'))
                    .then((response: APIResponse) => response?.body?.items);
     }
+
+    // IPs
 
     assignIp(
         domain: string,
@@ -176,8 +193,6 @@ export default class DomainClient {
     ): Promise<APIResponse> {
         return this.request.delete(urljoin('/v3/domains', domain, 'ips', ip));
     }
-
-    // Tracking
 
     linkIpPool(
         domain: string,
@@ -205,8 +220,6 @@ export default class DomainClient {
         return this.request.delete(urljoin('/v3/domains', domain, 'ips', 'ip_pool', searchParams));
     }
 
-    // IPs
-
     updateDKIMAuthority(
         domain: string,
         data: DKIMAuthorityInfo,
@@ -232,29 +245,9 @@ export default class DomainClient {
                    .then((res: APIResponse) => res as UpdatedWebPrefixResponse);
     }
 
-    private _parseMessage(response: DestroyedDomainResponse): MessageResponse {
-        return response.body;
-    }
-
     private _parseDomainList(response: DomainListResponseData): Domain[] {
         return response.body.items.map(function(item) {
             return new Domain(item);
         });
-    }
-
-    private _parseDomain(response: DomainResponseData): Domain {
-        return new Domain(
-            response.body.domain,
-            response.body.receiving_dns_records,
-            response.body.sending_dns_records,
-        );
-    }
-
-    private _parseTrackingSettings(response: DomainTrackingResponse): DomainTrackingData {
-        return response.body.tracking;
-    }
-
-    private _parseTrackingUpdate(response: UpdateDomainTrackingResponse): UpdatedOpenTracking {
-        return response.body;
     }
 }

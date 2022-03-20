@@ -10,9 +10,13 @@ export default class IpPoolsClient {
         this.request = request;
     }
 
+    private static parseIpPoolsResponse(response: { body: any }) {
+        return response.body.ip_pools;
+    }
+
     list(query: any): Promise<IpPool[]> {
         return this.request.get('/v1/ip_pools', query)
-                   .then((response: IpPoolListResponse) => this.parseIpPoolsResponse(response));
+                   .then((response: IpPoolListResponse) => IpPoolsClient.parseIpPoolsResponse(response));
     }
 
     create(data: { name: string, description?: string, ips?: string[] }) {
@@ -34,9 +38,5 @@ export default class IpPoolsClient {
     ) {
         return this.request.delete(`/v1/ip_pools/${ poolId }`, data)
                    .then((response: { body: any }) => response?.body);
-    }
-
-    private parseIpPoolsResponse(response: { body: any | any }) {
-        return response.body.ip_pools;
     }
 }

@@ -21,7 +21,6 @@ import {
     DomainTagStatisticItem,
     DomainTagStatisticResult,
     IDomainTagsClient,
-    PagesList,
     PagesListAccumulator,
     ParsedPagesList,
     Resolution,
@@ -56,8 +55,7 @@ export class DomainTagStatistic implements DomainTagStatisticResult {
         this.end = new Date(tagStatisticInfo.body.end);
         this.resolution = tagStatisticInfo.body.resolution;
         this.stats = tagStatisticInfo.body.stats.map(function(stat: DomainTagAPIResponseStatsItem) {
-            const res = { ...stat, time: new Date(stat.time) };
-            return res;
+            return { ...stat, time: new Date(stat.time) };
         });
     }
 }
@@ -69,6 +67,30 @@ export default class DomainTagsClient implements IDomainTagsClient {
     constructor(request: Request) {
         this.request = request;
         this.baseRoute = '/v3/';
+    }
+
+    private static _parsePageLinks(response: DomainTagsResponseData): ParsedPagesList {
+        const pages = Object.entries(response.body.paging);
+        return pages.reduce(
+            (
+                acc: PagesListAccumulator,
+                entrie: [ url: string, id: string ],
+            ) => {
+                const id = entrie[0];
+                const url = entrie[1];
+                acc[id] = {
+                    id,
+                    url,
+                };
+                return acc;
+            }, {},
+        ) as unknown as ParsedPagesList;
+    }
+
+    private static _parseTagStatistic(
+        response: DomainTagStatAPIResponse,
+    ): DomainTagStatistic {
+        return new DomainTagStatistic(response);
     }
 
     list(
@@ -122,7 +144,7 @@ export default class DomainTagsClient implements IDomainTagsClient {
         : Promise<DomainTagStatistic> {
         return this.request.get(urljoin(this.baseRoute, domain, '/tags', tag, 'stats'), query)
                    .then(
-                       (res: APIResponse) => this._parseTagStatistic(res),
+                       (res: APIResponse) => DomainTagsClient._parseTagStatistic(res),
                    );
     }
 
@@ -156,36 +178,12 @@ export default class DomainTagsClient implements IDomainTagsClient {
                    );
     }
 
-    private _parsePageLinks(response: DomainTagsResponseData): ParsedPagesList {
-        const pages = Object.entries(response.body.paging as PagesList);
-        return pages.reduce(
-            (
-                acc: PagesListAccumulator,
-                entrie: [ url: string, id: string ],
-            ) => {
-                const id = entrie[0];
-                const url = entrie[1];
-                acc[id] = {
-                    id,
-                    url,
-                };
-                return acc;
-            }, {},
-        ) as unknown as ParsedPagesList;
-    }
-
     private _parseDomainTagsList(
         response: DomainTagsResponseData,
     ): DomainTagsList {
         return {
             items: response.body.items.map((tagInfo) => new DomainTag(tagInfo)),
-            pages: this._parsePageLinks(response),
+            pages: DomainTagsClient._parsePageLinks(response),
         };
-    }
-
-    private _parseTagStatistic(
-        response: DomainTagStatAPIResponse,
-    ): DomainTagStatistic {
-        return new DomainTagStatistic(response);
     }
 }

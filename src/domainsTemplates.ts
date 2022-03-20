@@ -71,6 +71,66 @@ export default class DomainTemplatesClient implements IDomainTemplatesClient {
         this.baseRoute = '/v3/';
     }
 
+    private static parseCreationResponse(data: CreateDomainTemplateAPIResponse): DomainTemplateItem {
+        return new DomainTemplateItem(data.body.template);
+    }
+
+    private static parseCreationVersionResponse(
+        data: CreateDomainTemplateVersionAPIResponse,
+    ): CreateDomainTemplateVersionResult {
+        const result: CreateDomainTemplateVersionResult = {} as CreateDomainTemplateVersionResult;
+        result.status = data.status;
+        result.message = data.body.message;
+        if (data.body && data.body.template) {
+            result.template = new DomainTemplateItem(data.body.template);
+        }
+        return result;
+    }
+
+    private static parseMutationResponse(
+        data: UpdateOrDeleteDomainTemplateAPIResponse,
+    ): UpdateOrDeleteDomainTemplateResult {
+        const result: UpdateOrDeleteDomainTemplateResult = {} as UpdateOrDeleteDomainTemplateResult;
+        result.status = data.status;
+        result.message = data.body.message;
+        if (data.body && data.body.template) {
+            result.templateName = data.body.template.name;
+        }
+        return result;
+    }
+
+    private static parseNotificationResponse(data: NotificationAPIResponse): NotificationResult {
+        const result: NotificationResult = {} as NotificationResult;
+        result.status = data.status;
+        result.message = data.body.message;
+        return result;
+    }
+
+    private static parseMutateTemplateVersionResponse(
+        data: MutateDomainTemplateVersionAPIResponse,
+    ): MutateDomainTemplateVersionResult {
+        const result: MutateDomainTemplateVersionResult = {} as MutateDomainTemplateVersionResult;
+        result.status = data.status;
+        result.message = data.body.message;
+        if (data.body.template) {
+            result.templateName = data.body.template.name;
+            result.templateVersion = { tag: data.body.template.version.tag };
+        }
+        return result;
+    }
+
+    private static parseListTemplateVersions(
+        response: ListDomainTemplateVersionsAPIResponse,
+    ): ListDomainTemplateVersionsResult {
+        const data = {} as ListDomainTemplateVersionsResult;
+
+        data.template = new DomainTemplateItem(response.body.template);
+
+        data.pages = response.body.paging;
+
+        return data;
+    }
+
     list(
         domain: string,
         query?: DomainTemplatesQuery,
@@ -97,7 +157,7 @@ export default class DomainTemplatesClient implements IDomainTemplatesClient {
         data: DomainTemplateData,
     ): Promise<DomainTemplateItem> {
         return this.request.postWithFD(urljoin(this.baseRoute, domain, '/templates'), data)
-                   .then((res: CreateDomainTemplateAPIResponse) => this.parseCreationResponse(res));
+                   .then((res: CreateDomainTemplateAPIResponse) => DomainTemplatesClient.parseCreationResponse(res));
     }
 
     update(
@@ -106,7 +166,7 @@ export default class DomainTemplatesClient implements IDomainTemplatesClient {
         data: DomainTemplateUpdateData,
     ): Promise<UpdateOrDeleteDomainTemplateResult> {
         return this.request.putWithFD(urljoin(this.baseRoute, domain, '/templates/', templateName), data)
-                   .then((res: UpdateOrDeleteDomainTemplateAPIResponse) => this.parseMutationResponse(res));
+                   .then((res: UpdateOrDeleteDomainTemplateAPIResponse) => DomainTemplatesClient.parseMutationResponse(res));
     }
 
     destroy(
@@ -114,12 +174,12 @@ export default class DomainTemplatesClient implements IDomainTemplatesClient {
         templateName: string,
     ): Promise<UpdateOrDeleteDomainTemplateResult> {
         return this.request.delete(urljoin(this.baseRoute, domain, '/templates/', templateName))
-                   .then((res: UpdateOrDeleteDomainTemplateAPIResponse) => this.parseMutationResponse(res));
+                   .then((res: UpdateOrDeleteDomainTemplateAPIResponse) => DomainTemplatesClient.parseMutationResponse(res));
     }
 
     destroyAll(domain: string): Promise<NotificationResult> {
         return this.request.delete(urljoin(this.baseRoute, domain, '/templates'))
-                   .then((res: NotificationAPIResponse) => this.parseNotificationResponse(res));
+                   .then((res: NotificationAPIResponse) => DomainTemplatesClient.parseNotificationResponse(res));
     }
 
     createVersion(
@@ -129,7 +189,7 @@ export default class DomainTemplatesClient implements IDomainTemplatesClient {
     ): Promise<CreateDomainTemplateVersionResult> {
         return this.request.postWithFD(urljoin(this.baseRoute, domain, '/templates/', templateName, '/versions'), data)
                    .then(
-                       (res: CreateDomainTemplateVersionAPIResponse) => this.parseCreationVersionResponse(res),
+                       (res: CreateDomainTemplateVersionAPIResponse) => DomainTemplatesClient.parseCreationVersionResponse(res),
                    );
     }
 
@@ -153,7 +213,7 @@ export default class DomainTemplatesClient implements IDomainTemplatesClient {
         return this.request.putWithFD(urljoin(this.baseRoute, domain, '/templates/', templateName, '/versions/', tag), data)
                    .then(
                        // eslint-disable-next-line max-len
-                       (res: MutateDomainTemplateVersionAPIResponse) => this.parseMutateTemplateVersionResponse(res),
+                       (res: MutateDomainTemplateVersionAPIResponse) => DomainTemplatesClient.parseMutateTemplateVersionResponse(res),
                    );
     }
 
@@ -164,7 +224,7 @@ export default class DomainTemplatesClient implements IDomainTemplatesClient {
     ): Promise<MutateDomainTemplateVersionResult> {
         return this.request.delete(urljoin(this.baseRoute, domain, '/templates/', templateName, '/versions/', tag))
             // eslint-disable-next-line max-len
-                   .then((res: MutateDomainTemplateVersionAPIResponse) => this.parseMutateTemplateVersionResponse(res));
+                   .then((res: MutateDomainTemplateVersionAPIResponse) => DomainTemplatesClient.parseMutateTemplateVersionResponse(res));
     }
 
     listVersions(
@@ -174,74 +234,14 @@ export default class DomainTemplatesClient implements IDomainTemplatesClient {
     ): Promise<ListDomainTemplateVersionsResult> {
         return this.request.get(urljoin(this.baseRoute, domain, '/templates', templateName, '/versions'), query)
                    .then(
-                       (res: ListDomainTemplateVersionsAPIResponse) => this.parseListTemplateVersions(res),
+                       (res: ListDomainTemplateVersionsAPIResponse) => DomainTemplatesClient.parseListTemplateVersions(res),
                    );
-    }
-
-    private parseCreationResponse(data: CreateDomainTemplateAPIResponse): DomainTemplateItem {
-        return new DomainTemplateItem(data.body.template);
-    }
-
-    private parseCreationVersionResponse(
-        data: CreateDomainTemplateVersionAPIResponse,
-    ): CreateDomainTemplateVersionResult {
-        const result: CreateDomainTemplateVersionResult = {} as CreateDomainTemplateVersionResult;
-        result.status = data.status;
-        result.message = data.body.message;
-        if (data.body && data.body.template) {
-            result.template = new DomainTemplateItem(data.body.template);
-        }
-        return result;
-    }
-
-    private parseMutationResponse(
-        data: UpdateOrDeleteDomainTemplateAPIResponse,
-    ): UpdateOrDeleteDomainTemplateResult {
-        const result: UpdateOrDeleteDomainTemplateResult = {} as UpdateOrDeleteDomainTemplateResult;
-        result.status = data.status;
-        result.message = data.body.message;
-        if (data.body && data.body.template) {
-            result.templateName = data.body.template.name;
-        }
-        return result;
-    }
-
-    private parseNotificationResponse(data: NotificationAPIResponse): NotificationResult {
-        const result: NotificationResult = {} as NotificationResult;
-        result.status = data.status;
-        result.message = data.body.message;
-        return result;
-    }
-
-    private parseMutateTemplateVersionResponse(
-        data: MutateDomainTemplateVersionAPIResponse,
-    ): MutateDomainTemplateVersionResult {
-        const result: MutateDomainTemplateVersionResult = {} as MutateDomainTemplateVersionResult;
-        result.status = data.status;
-        result.message = data.body.message;
-        if (data.body.template) {
-            result.templateName = data.body.template.name;
-            result.templateVersion = { tag: data.body.template.version.tag };
-        }
-        return result;
     }
 
     private parseList(response: ListDomainTemplatesAPIResponse): ListDomainTemplatesResult {
         const data = {} as ListDomainTemplatesResult;
 
         data.items = response.body.items.map((d: DomainTemplate) => new DomainTemplateItem(d));
-
-        data.pages = response.body.paging;
-
-        return data;
-    }
-
-    private parseListTemplateVersions(
-        response: ListDomainTemplateVersionsAPIResponse,
-    ): ListDomainTemplateVersionsResult {
-        const data = {} as ListDomainTemplateVersionsResult;
-
-        data.template = new DomainTemplateItem(response.body.template);
 
         data.pages = response.body.paging;
 

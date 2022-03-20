@@ -10,11 +10,6 @@ import APIResponse from './interfaces/ApiResponse';
 
 const isStream = (attachment: any) => typeof attachment === 'object' && typeof attachment.pipe === 'function';
 
-function isNodeFormData(formDataInstance: NodeFormData)
-    : formDataInstance is NodeFormData {
-    return (<NodeFormData>formDataInstance).getHeaders !== undefined;
-}
-
 const getAttachmentOptions = (item: any): {
     filename?: string,
     contentType?: string,
@@ -50,12 +45,12 @@ const streamToString = (stream: any) => {
 };
 
 class Request {
-    private username: string;
-    private key: string;
-    private url: string;
-    private timeout: number;
-    private headers: any;
-    private FormDataConstructor: InputFormData;
+    private readonly username: string;
+    private readonly key: string;
+    private readonly url: string;
+    private readonly timeout: number;
+    private readonly headers: any;
+    private readonly FormDataConstructor: InputFormData;
 
     constructor(
         options: RequestOptions,
@@ -67,6 +62,16 @@ class Request {
         this.timeout = options.timeout;
         this.headers = options.headers || {};
         this.FormDataConstructor = formData;
+    }
+
+    private static addMimeDataToFD(
+        key: string,
+        data: Buffer | Blob,
+        formDataInstance: NodeFormData,
+    ): void {
+        if (Buffer.isBuffer(data)) {
+            formDataInstance.append(key, data, { filename: 'MimeMessage' });
+        }
     }
 
     async request(
@@ -119,12 +124,10 @@ class Request {
             } as APIErrorOptions);
         }
 
-        const res = {
+        return {
             body: await response?.json(),
             status: response?.status,
         };
-
-        return res;
     }
 
     query(
@@ -224,29 +227,28 @@ class Request {
     }
 
     createFormData(data: any): NodeFormData {
-        const formData: NodeFormData = Object.keys(data)
-                                             .filter(function(key) {
-                                                 return data[key];
-                                             })
-                                             .reduce((
-                                                 formDataAcc: NodeFormData,
-                                                 key,
-                                             ) => {
-                                                 const fileKeys = [ 'attachment', 'inline', 'file' ];
-                                                 if (fileKeys.includes(key)) {
-                                                     this.addFilesToFD(key, data[key], formDataAcc);
-                                                     return formDataAcc;
-                                                 }
+        return Object.keys(data)
+                     .filter(function(key) {
+                         return data[key];
+                     })
+                     .reduce((
+                         formDataAcc: NodeFormData,
+                         key,
+                     ) => {
+                         const fileKeys = [ 'attachment', 'inline', 'file' ];
+                         if (fileKeys.includes(key)) {
+                             this.addFilesToFD(key, data[key], formDataAcc);
+                             return formDataAcc;
+                         }
 
-                                                 if (key === 'message') { // mime message
-                                                     this.addMimeDataToFD(key, data[key], formDataAcc);
-                                                     return formDataAcc;
-                                                 }
+                         if (key === 'message') { // mime message
+                             Request.addMimeDataToFD(key, data[key], formDataAcc);
+                             return formDataAcc;
+                         }
 
-                                                 this.addCommonPropertyToFD(key, data[key], formDataAcc);
-                                                 return formDataAcc;
-                                             }, new this.FormDataConstructor());
-        return formData;
+                         this.addCommonPropertyToFD(key, data[key], formDataAcc);
+                         return formDataAcc;
+                     }, new this.FormDataConstructor());
     }
 
     put(
@@ -271,16 +273,6 @@ class Request {
         options?: any,
     ): Promise<APIResponse> {
         return this.command('delete', url, data, options);
-    }
-
-    private addMimeDataToFD(
-        key: string,
-        data: Buffer | Blob,
-        formDataInstance: NodeFormData,
-    ): void {
-        if (Buffer.isBuffer(data)) {
-            formDataInstance.append(key, data, { filename: 'MimeMessage' });
-        }
     }
 
     private addFilesToFD(

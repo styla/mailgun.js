@@ -1,5 +1,5 @@
 import urljoin from 'url-join';
-import { EventsList, EventsPage, EventsResponse, PagesList, PagesListAccumulator, ParsedPagesList } from './interfaces/Events';
+import { EventsList, EventsPage, EventsResponse, PagesListAccumulator, ParsedPagesList } from './interfaces/Events';
 
 import Request from './request';
 
@@ -22,7 +22,7 @@ export default class EventClient {
     }
 
     _parsePageLinks(response: EventsResponse): ParsedPagesList {
-        const pages = Object.entries(response.body.paging as PagesList);
+        const pages = Object.entries(response.body.paging);
         return pages.reduce(
             (
                 acc: PagesListAccumulator,
