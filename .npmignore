@@ -1,0 +1,8 @@
+node_modules/
+.nyc_output/
+results.xml
+build
+
+./test.js
+.idea/
+
