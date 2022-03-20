@@ -1,6 +1,6 @@
 {
     "name": "@styla/mailgun",
-    "version": "5.0.2",
+    "version": "5.0.3",
     "types": "dist/mailgun.js.d.ts",
     "author": "Mailgun",
     "license": "MIT",
