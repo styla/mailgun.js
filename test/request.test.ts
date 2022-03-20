@@ -1,7 +1,6 @@
 // jscs:disable requireDotNotation
 import formData from 'form-data';
 
-import base64 from 'base-64';
 import nock from 'nock';
 import { expect } from 'chai';
 import Request from '../src/request';
@@ -15,7 +14,7 @@ describe('Request', function() {
 
     beforeEach(function() {
         headers = {};
-        headers.Authorization = `Basic ${ base64.encode('api:key') }`;
+        headers.Authorization = `Basic ${ Buffer.from('api:key').toString('base64') }`;
     });
 
     describe('request', function() {

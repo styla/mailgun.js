@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import url from 'url';
 import urljoin from 'url-join';
 
 import Request from './request';
@@ -105,13 +104,13 @@ export default class SuppressionClient {
         id: string,
         pageUrl: string,
     ): ParsedPage {
-        const parsedUrl = url.parse(pageUrl, true);
-        const { query } = parsedUrl;
+        const parsedUrl = new URL(pageUrl);
+        const urlQuery = new URLSearchParams(parsedUrl.search);
 
         return {
             id,
-            page: query.page as string,
-            address: query.address as string,
+            page: urlQuery.get('page') ?? '',
+            address: urlQuery.get('address') ?? '',
             url: pageUrl,
         };
     }

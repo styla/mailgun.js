@@ -1,5 +1,4 @@
 import NodeFormData from 'form-data';
-import base64 from 'base-64';
 import urljoin from 'url-join';
 import fetch from 'node-fetch';
 import APIError from './error';
@@ -80,7 +79,7 @@ class Request {
         inputOptions?: any,
     ): Promise<APIResponse> {
         const options = { ...inputOptions };
-        const basic = base64.encode(`${ this.username }:${ this.key }`);
+        const basic = Buffer.from(`${ this.username }:${ this.key }`).toString('base64');
         const headers = {
             Authorization: `Basic ${ basic }`,
             ...this.headers,
