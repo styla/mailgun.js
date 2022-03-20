@@ -1,11 +1,11 @@
 import formData from 'form-data';
 
 import nock from 'nock';
-import Request from '../lib/request';
-import StatsClient from '../lib/stats';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import { StatsOptions } from '../lib/interfaces/StatsOptions';
-import { InputFormData } from '../lib/interfaces/IFormData';
+import Request from '../src/request';
+import StatsClient from '../src/stats';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import { StatsOptions } from '../src/interfaces/StatsOptions';
+import { InputFormData } from '../src/interfaces/IFormData';
 
 describe('StatsClient', function () {
   let client: any;

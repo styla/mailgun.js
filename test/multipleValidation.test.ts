@@ -3,16 +3,16 @@ import fs from 'fs';
 import path from 'path';
 
 import nock from 'nock';
-import Request from '../lib/request';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import { InputFormData } from '../lib/interfaces/IFormData';
-import MultipleValidationClient from '../lib/multipleValidation';
+import Request from '../src/request';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import { InputFormData } from '../src/interfaces/IFormData';
+import MultipleValidationClient from '../src/multipleValidation';
 import {
   CanceledMultipleValidationJob,
   CreatedMultipleValidationJob,
   MultipleValidationJob,
   MultipleValidationJobsListResult
-} from '../lib/interfaces/MultipleValidation';
+} from '../src/interfaces/MultipleValidation';
 
 const filepath = path.resolve(__dirname, './data/emailsValidation1.csv');
 

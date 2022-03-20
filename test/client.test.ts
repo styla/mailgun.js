@@ -2,21 +2,21 @@ import formData from 'form-data';
 
 import { expect } from 'chai';
 
-import Client from '../lib/client';
-import Request from '../lib/request';
-import DomainsClient from '../lib/domains';
-import EventsClient from '../lib/events';
-import WebhooksClient from '../lib/webhooks';
-import SuppressionsClient from '../lib/suppressions';
-import MessagesClient from '../lib/messages';
-import RoutesClient from '../lib/routes';
-import ValidateClient from '../lib/validate';
+import Client from '../src/client';
+import Request from '../src/request';
+import DomainsClient from '../src/domains';
+import EventsClient from '../src/events';
+import WebhooksClient from '../src/webhooks';
+import SuppressionsClient from '../src/suppressions';
+import MessagesClient from '../src/messages';
+import RoutesClient from '../src/routes';
+import ValidateClient from '../src/validate';
 
-import { InputFormData } from '../lib/interfaces/IFormData';
-import StatsClient from '../lib/stats';
-import ListsClient from '../lib/lists';
-import IpPoolsClient from '../lib/ip-pools';
-import IpsClient from '../lib/ips';
+import { InputFormData } from '../src/interfaces/IFormData';
+import StatsClient from '../src/stats';
+import ListsClient from '../src/lists';
+import IpPoolsClient from '../src/ip-pools';
+import IpsClient from '../src/ips';
 
 describe('Client', function () {
   let client: any;

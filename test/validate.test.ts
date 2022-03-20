@@ -1,11 +1,11 @@
 import formData from 'form-data';
 
 import nock from 'nock';
-import Request from '../lib/request';
-import ValidateClient from '../lib/validate';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import { InputFormData } from '../lib/interfaces/IFormData';
-import MultipleValidationClient from '../lib/multipleValidation';
+import Request from '../src/request';
+import ValidateClient from '../src/validate';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import { InputFormData } from '../src/interfaces/IFormData';
+import MultipleValidationClient from '../src/multipleValidation';
 
 describe('ValidateClient', function () {
   let client: ValidateClient;

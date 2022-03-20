@@ -1,9 +1,9 @@
 import formData from 'form-data';
 import nock from 'nock';
-import Request from '../lib/request';
-import WebhookClient from '../lib/webhooks';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import { InputFormData } from '../lib/interfaces/IFormData';
+import Request from '../src/request';
+import WebhookClient from '../src/webhooks';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import { InputFormData } from '../src/interfaces/IFormData';
 
 describe('WebhookClient', function () {
   let client: any;

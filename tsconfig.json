@@ -1,22 +1,35 @@
 {
-  "compilerOptions": {
-    "outDir": "dist",
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "es5",
-    "allowJs": true,
-    "declaration": true,
-    "esModuleInterop": true,
-
-    "allowSyntheticDefaultImports": true,
-    "incremental": true,
-    "skipLibCheck": true,
-    "strict": true
-  },
-  "typedocOptions": {
-    "out": "docs",
-    "entryPointStrategy": "expand",
-    "entryPoints": ["./lib"],
-    "exclude": ["test/**", "dist/**", "build/**", "docs/**", "examples/**"]
-  }
+    "compilerOptions": {
+        "outDir": "./dist",
+        "module": "commonjs",
+        "target": "es2018",
+        "lib": [
+            "es6",
+            "es7",
+            "esnext"
+        ],
+        "allowJs": false,
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "declaration": true,
+        "sourceMap": true,
+        "allowSyntheticDefaultImports": true,
+        "suppressImplicitAnyIndexErrors": false,
+        "noUnusedLocals": false,
+        "strict": true,
+        "typeRoots": [
+            "./node_modules/@types/"
+        ]
+    },
+    "include": [
+        "src/*.ts",
+        "tests/*/**.ts"
+    ],
+    "exclude": [
+        "node_modules/"
+    ]
 }

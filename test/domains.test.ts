@@ -2,20 +2,20 @@ import formData from 'form-data';
 
 import nock from 'nock';
 import { expect } from 'chai';
-import Request from '../lib/request';
-import DomainClient, { Domain } from '../lib/domains';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import { InputFormData } from '../lib/interfaces/IFormData';
-import DomainCredentialsClient from '../lib/domainsCredentials';
+import Request from '../src/request';
+import DomainClient, { Domain } from '../src/domains';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import { InputFormData } from '../src/interfaces/IFormData';
+import DomainCredentialsClient from '../src/domainsCredentials';
 import {
   ConnectionSettings,
   MessageResponse,
   UpdatedConnectionSettings,
   UpdatedDKIMAuthority,
   UpdatedDKIMSelectorResponse, UpdatedWebPrefixResponse
-} from '../lib/interfaces/Domains';
-import DomainTemplatesClient from '../lib/domainsTemplates';
-import DomainTagsClient from '../lib/domainsTags';
+} from '../src/interfaces/Domains';
+import DomainTemplatesClient from '../src/domainsTemplates';
+import DomainTagsClient from '../src/domainsTags';
 
 // TODO: fix types
 describe('DomainClient', function () {

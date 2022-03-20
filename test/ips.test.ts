@@ -2,12 +2,12 @@
 
 import nock from 'nock';
 import formData from 'form-data';
-import Request from '../lib/request';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import IpsClient from '../lib/ips';
+import Request from '../src/request';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import IpsClient from '../src/ips';
 
-import { IpData, IpsListResponseBody } from '../lib/interfaces/Ips';
-import { InputFormData } from '../lib/interfaces/IFormData';
+import { IpData, IpsListResponseBody } from '../src/interfaces/Ips';
+import { InputFormData } from '../src/interfaces/IFormData';
 
 // TODO: fix types
 describe('DomainClient', function () {

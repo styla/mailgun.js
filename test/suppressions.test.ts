@@ -2,10 +2,10 @@ import chai, { expect } from 'chai';
 import formData from 'form-data';
 import nock from 'nock';
 
-import Request from '../lib/request';
-import SuppressionClient from '../lib/suppressions';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import { InputFormData } from '../lib/interfaces/IFormData';
+import Request from '../src/request';
+import SuppressionClient from '../src/suppressions';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import { InputFormData } from '../src/interfaces/IFormData';
 
 chai.should();
 

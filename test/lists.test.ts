@@ -1,12 +1,12 @@
 import nock from 'nock';
 import formData from 'form-data';
 
-import Request from '../lib/request';
-import ListsClient from '../lib/lists';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import MailListMembers from '../lib/mailListMembers';
-import { MailingList } from '../lib/interfaces/lists';
-import { InputFormData } from '../lib/interfaces/IFormData';
+import Request from '../src/request';
+import ListsClient from '../src/lists';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import MailListMembers from '../src/mailListMembers';
+import { MailingList } from '../src/interfaces/lists';
+import { InputFormData } from '../src/interfaces/IFormData';
 
 describe('ListsClient', function () {
   let client: any;

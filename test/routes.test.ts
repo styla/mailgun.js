@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 import formData from 'form-data';
 import nock from 'nock';
-import Request from '../lib/request';
-import RoutesClient from '../lib/routes';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import { InputFormData } from '../lib/interfaces/IFormData';
+import Request from '../src/request';
+import RoutesClient from '../src/routes';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import { InputFormData } from '../src/interfaces/IFormData';
 
 interface Data {
   actions: string[],

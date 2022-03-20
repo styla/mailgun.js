@@ -1,11 +1,11 @@
 import nock from 'nock';
 
 import formData from 'form-data';
-import EventClient from '../lib/events';
-import MgRequest from '../lib/request';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import { InputFormData } from '../lib/interfaces/IFormData';
-import { EventsList, EventsResponse } from '../lib/interfaces/Events';
+import EventClient from '../src/events';
+import MgRequest from '../src/request';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import { InputFormData } from '../src/interfaces/IFormData';
+import { EventsList, EventsResponse } from '../src/interfaces/Events';
 
 describe('EventsClient', function () {
   let client: EventClient;

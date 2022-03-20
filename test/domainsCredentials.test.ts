@@ -1,11 +1,11 @@
 import formData from 'form-data';
 
 import nock from 'nock';
-import Request from '../lib/request';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import { InputFormData } from '../lib/interfaces/IFormData';
-import DomainCredentialsClient from '../lib/domainsCredentials';
-import { DomainCredentialsList, DomainCredentialsResult } from '../lib/interfaces/DomainCredentials';
+import Request from '../src/request';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import { InputFormData } from '../src/interfaces/IFormData';
+import DomainCredentialsClient from '../src/domainsCredentials';
+import { DomainCredentialsList, DomainCredentialsResult } from '../src/interfaces/DomainCredentials';
 
 // TODO: fix types
 describe('DomainsCredentialsClient', function () {

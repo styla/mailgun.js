@@ -4,10 +4,10 @@ import fs from 'fs';
 import nock from 'nock';
 import { expect } from 'chai';
 
-import Request from '../lib/request';
-import MessagesClient from '../lib/messages';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import { InputFormData } from '../lib/interfaces/IFormData';
+import Request from '../src/request';
+import MessagesClient from '../src/messages';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import { InputFormData } from '../src/interfaces/IFormData';
 
 const mailgunLogo = fs.createReadStream(`${__dirname}/img/mailgun.png`);
 

@@ -1,10 +1,10 @@
 import formData from 'form-data';
 
 import nock from 'nock';
-import Request from '../lib/request';
-import RequestOptions from '../lib/interfaces/RequestOptions';
-import { InputFormData } from '../lib/interfaces/IFormData';
-import DomainsTagsClient, { DomainTagStatistic } from '../lib/domainsTags';
+import Request from '../src/request';
+import RequestOptions from '../src/interfaces/RequestOptions';
+import { InputFormData } from '../src/interfaces/IFormData';
+import DomainsTagsClient, { DomainTagStatistic } from '../src/domainsTags';
 import {
   DomainTagCountriesAggregation,
   DomainTagDevicesAggregation,
@@ -12,7 +12,7 @@ import {
   DomainTagsItem,
   DomainTagsList,
   DomainTagsMessageRes
-} from '../lib/interfaces/DomainTags';
+} from '../src/interfaces/DomainTags';
 
 describe('DomainsTagsClient', function () {
   let client: DomainsTagsClient;
