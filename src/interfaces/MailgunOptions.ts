@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-export interface Options {
+export interface MailgunOptions {
     username: string;
     key: string;
     url?: string;

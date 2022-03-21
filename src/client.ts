@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Request } from './request';
-import { Options } from './interfaces/Options';
+import { MailgunOptions } from './interfaces/MailgunOptions';
 
 import { DomainClient } from './domains';
 import { EventClient } from './events';
@@ -35,10 +35,10 @@ export class Client {
     private readonly request;
 
     constructor(
-        options: Options,
+        options: MailgunOptions,
         formData: InputFormData,
     ) {
-        const config: Options = { ...options };
+        const config: MailgunOptions = { ...options };
 
         if (!config.url) {
             config.url = 'https://api.mailgun.net';

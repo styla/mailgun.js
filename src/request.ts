@@ -6,7 +6,7 @@ import { RequestOptions } from './interfaces/RequestOptions';
 import { APIErrorOptions } from './interfaces/APIErrorOptions';
 import { InputFormData } from './interfaces/IFormData';
 import { APIResponse } from './interfaces/ApiResponse';
-import { Options } from './interfaces/Options';
+import { MailgunOptions } from './interfaces/MailgunOptions';
 
 const isStream = (attachment: any) => typeof attachment === 'object' && typeof attachment.pipe === 'function';
 
@@ -53,7 +53,7 @@ export class Request {
     private readonly FormDataConstructor: InputFormData;
 
     constructor(
-        options: Options & RequestOptions,
+        options: MailgunOptions & RequestOptions,
         formData: InputFormData,
     ) {
         this.username = options.username;
