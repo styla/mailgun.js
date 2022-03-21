@@ -1,4 +1,3 @@
-import urljoin from 'url-join';
 import { APIResponse } from './interfaces/ApiResponse';
 import { Request } from './request';
 
@@ -25,6 +24,7 @@ import {
     ParsedPagesList,
     Resolution,
 } from './interfaces/DomainTags';
+import { urlJoin } from './utils/urlJoin';
 
 export class DomainTag implements DomainTagsItem {
     tag: string;
@@ -97,7 +97,7 @@ export class DomainTagsClient implements IDomainTagsClient {
         domain: string,
         query?: DomainTagsQuery,
     ): Promise<DomainTagsList> {
-        return this.request.get(urljoin(this.baseRoute, domain, '/tags'), query)
+        return this.request.get(urlJoin(this.baseRoute, domain, '/tags'), query)
                    .then(
                        (res: APIResponse) => this._parseDomainTagsList(res as DomainTagsResponseData),
                    );
@@ -107,7 +107,7 @@ export class DomainTagsClient implements IDomainTagsClient {
         domain: string,
         tag: string,
     ): Promise<DomainTagsItem> {
-        return this.request.get(urljoin(this.baseRoute, domain, '/tags', tag))
+        return this.request.get(urlJoin(this.baseRoute, domain, '/tags', tag))
                    .then(
                        (res: APIResponse) => new DomainTag(res.body),
                    );
@@ -118,7 +118,7 @@ export class DomainTagsClient implements IDomainTagsClient {
         tag: string,
         description: string,
     ): Promise<DomainTagsMessageRes> {
-        return this.request.put(urljoin(this.baseRoute, domain, '/tags', tag), description)
+        return this.request.put(urlJoin(this.baseRoute, domain, '/tags', tag), description)
                    .then(
                        (res: APIResponse) => res.body as DomainTagsMessageRes,
                    );
@@ -142,7 +142,7 @@ export class DomainTagsClient implements IDomainTagsClient {
         query: DomainTagsStatisticQuery,
     )
         : Promise<DomainTagStatistic> {
-        return this.request.get(urljoin(this.baseRoute, domain, '/tags', tag, 'stats'), query)
+        return this.request.get(urlJoin(this.baseRoute, domain, '/tags', tag, 'stats'), query)
                    .then(
                        (res: APIResponse) => DomainTagsClient._parseTagStatistic(res),
                    );
@@ -152,7 +152,7 @@ export class DomainTagsClient implements IDomainTagsClient {
         domain: string,
         tag: string,
     ): Promise<DomainTagCountriesAggregation> {
-        return this.request.get(urljoin(this.baseRoute, domain, '/tags', tag, 'stats/aggregates/countries'))
+        return this.request.get(urlJoin(this.baseRoute, domain, '/tags', tag, 'stats/aggregates/countries'))
                    .then(
                        (res: DomainTagCountriesAPIResponse) => res.body as DomainTagCountriesAggregation,
                    );
@@ -162,7 +162,7 @@ export class DomainTagsClient implements IDomainTagsClient {
         domain: string,
         tag: string,
     ): Promise<DomainTagProvidersAggregation> {
-        return this.request.get(urljoin(this.baseRoute, domain, '/tags', tag, 'stats/aggregates/providers'))
+        return this.request.get(urlJoin(this.baseRoute, domain, '/tags', tag, 'stats/aggregates/providers'))
                    .then(
                        (res: DomainTagProvidersAPIResponse) => res.body as DomainTagProvidersAggregation,
                    );
@@ -172,7 +172,7 @@ export class DomainTagsClient implements IDomainTagsClient {
         domain: string,
         tag: string,
     ): Promise<DomainTagDevicesAggregation> {
-        return this.request.get(urljoin(this.baseRoute, domain, '/tags', tag, 'stats/aggregates/devices'))
+        return this.request.get(urlJoin(this.baseRoute, domain, '/tags', tag, 'stats/aggregates/devices'))
                    .then(
                        (res: DomainTagDevicesAPIResponse) => res.body as DomainTagDevicesAggregation,
                    );

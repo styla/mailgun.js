@@ -1,6 +1,6 @@
-import urljoin from 'url-join';
 import { Request } from './request';
 import { Stat, StatsOptions, StatsQuery } from './interfaces/StatsOptions';
+import { urlJoin } from './utils/urlJoin';
 
 class Stats {
     start: Date;
@@ -36,7 +36,7 @@ export class StatsClient {
         query?: StatsQuery,
     ): Promise<Stats> {
         const searchParams = this.prepareSearchParams(query);
-        return this.request.get(urljoin('/v3', domain, 'stats/total'), searchParams)
+        return this.request.get(urlJoin('/v3', domain, 'stats/total'), searchParams)
                    .then(this._parseStats);
     }
 

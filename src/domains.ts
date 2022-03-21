@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import urljoin from 'url-join';
 import {
     ConnectionSettings,
     ConnectionSettingsResponse,
@@ -43,6 +42,7 @@ import { DomainCredentialsClient } from './domainsCredentials';
 import { DomainTemplatesClient } from './domainsTemplates';
 import { IDomainTagsClient } from './interfaces/DomainTags';
 import { DomainTagsClient } from './domainsTags';
+import { urlJoin } from './utils/urlJoin';
 
 export class Domain {
     name: string;
@@ -158,7 +158,7 @@ export class DomainClient {
     }
 
     getTracking(domain: string): Promise<DomainTrackingData> {
-        return this.request.get(urljoin('/v3/domains', domain, 'tracking'))
+        return this.request.get(urlJoin('/v3/domains', domain, 'tracking'))
                    .then(DomainClient._parseTrackingSettings);
     }
 
@@ -169,12 +169,12 @@ export class DomainClient {
         type: string,
         data: OpenTrackingInfo | ClickTrackingInfo | UnsubscribeTrackingInfo,
     ): Promise<UpdatedOpenTracking> {
-        return this.request.putWithFD(urljoin('/v3/domains', domain, 'tracking', type), data)
+        return this.request.putWithFD(urlJoin('/v3/domains', domain, 'tracking', type), data)
                    .then((res: APIResponse) => DomainClient._parseTrackingUpdate(res as UpdateDomainTrackingResponse));
     }
 
     getIps(domain: string): Promise<string[]> {
-        return this.request.get(urljoin('/v3/domains', domain, 'ips'))
+        return this.request.get(urlJoin('/v3/domains', domain, 'ips'))
                    .then((response: APIResponse) => response?.body?.items);
     }
 
@@ -184,21 +184,21 @@ export class DomainClient {
         domain: string,
         ip: string,
     ): Promise<APIResponse> {
-        return this.request.postWithFD(urljoin('/v3/domains', domain, 'ips'), { ip });
+        return this.request.postWithFD(urlJoin('/v3/domains', domain, 'ips'), { ip });
     }
 
     deleteIp(
         domain: string,
         ip: string,
     ): Promise<APIResponse> {
-        return this.request.delete(urljoin('/v3/domains', domain, 'ips', ip));
+        return this.request.delete(urlJoin('/v3/domains', domain, 'ips', ip));
     }
 
     linkIpPool(
         domain: string,
         pool_id: string,
     ): Promise<APIResponse> {
-        return this.request.postWithFD(urljoin('/v3/domains', domain, 'ips'), { pool_id });
+        return this.request.postWithFD(urlJoin('/v3/domains', domain, 'ips'), { pool_id });
     }
 
     unlinkIpPoll(
@@ -217,7 +217,7 @@ export class DomainClient {
         } else if (replacement.ip) {
             searchParams = `?ip=${ replacement.ip }`;
         }
-        return this.request.delete(urljoin('/v3/domains', domain, 'ips', 'ip_pool', searchParams));
+        return this.request.delete(urlJoin('/v3/domains', domain, 'ips', 'ip_pool', searchParams));
     }
 
     updateDKIMAuthority(

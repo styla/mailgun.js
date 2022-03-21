@@ -1,4 +1,3 @@
-import urljoin from 'url-join';
 import { APIResponse } from './interfaces/ApiResponse';
 import { Request } from './request';
 
@@ -28,6 +27,7 @@ import {
     UpdateOrDeleteDomainTemplateAPIResponse,
     UpdateOrDeleteDomainTemplateResult,
 } from './interfaces/DomainTemplates';
+import { urlJoin } from './utils/urlJoin';
 
 export class DomainTemplateItem implements DomainTemplate {
     name: string;
@@ -135,7 +135,7 @@ export class DomainTemplatesClient implements IDomainTemplatesClient {
         domain: string,
         query?: DomainTemplatesQuery,
     ): Promise<ListDomainTemplatesResult> {
-        return this.request.get(urljoin(this.baseRoute, domain, '/templates'), query)
+        return this.request.get(urlJoin(this.baseRoute, domain, '/templates'), query)
                    .then(
                        (res: APIResponse) => this.parseList(res),
                    );
@@ -146,7 +146,7 @@ export class DomainTemplatesClient implements IDomainTemplatesClient {
         templateName: string,
         query?: TemplateQuery,
     ): Promise<DomainTemplateItem> {
-        return this.request.get(urljoin(this.baseRoute, domain, '/templates/', templateName), query)
+        return this.request.get(urlJoin(this.baseRoute, domain, '/templates/', templateName), query)
                    .then(
                        (res: GetDomainTemplateAPIResponse) => new DomainTemplateItem(res.body.template),
                    );
@@ -156,7 +156,7 @@ export class DomainTemplatesClient implements IDomainTemplatesClient {
         domain: string,
         data: DomainTemplateData,
     ): Promise<DomainTemplateItem> {
-        return this.request.postWithFD(urljoin(this.baseRoute, domain, '/templates'), data)
+        return this.request.postWithFD(urlJoin(this.baseRoute, domain, '/templates'), data)
                    .then((res: CreateDomainTemplateAPIResponse) => DomainTemplatesClient.parseCreationResponse(res));
     }
 
@@ -165,7 +165,7 @@ export class DomainTemplatesClient implements IDomainTemplatesClient {
         templateName: string,
         data: DomainTemplateUpdateData,
     ): Promise<UpdateOrDeleteDomainTemplateResult> {
-        return this.request.putWithFD(urljoin(this.baseRoute, domain, '/templates/', templateName), data)
+        return this.request.putWithFD(urlJoin(this.baseRoute, domain, '/templates/', templateName), data)
                    .then((res: UpdateOrDeleteDomainTemplateAPIResponse) => DomainTemplatesClient.parseMutationResponse(res));
     }
 
@@ -173,12 +173,12 @@ export class DomainTemplatesClient implements IDomainTemplatesClient {
         domain: string,
         templateName: string,
     ): Promise<UpdateOrDeleteDomainTemplateResult> {
-        return this.request.delete(urljoin(this.baseRoute, domain, '/templates/', templateName))
+        return this.request.delete(urlJoin(this.baseRoute, domain, '/templates/', templateName))
                    .then((res: UpdateOrDeleteDomainTemplateAPIResponse) => DomainTemplatesClient.parseMutationResponse(res));
     }
 
     destroyAll(domain: string): Promise<NotificationResult> {
-        return this.request.delete(urljoin(this.baseRoute, domain, '/templates'))
+        return this.request.delete(urlJoin(this.baseRoute, domain, '/templates'))
                    .then((res: NotificationAPIResponse) => DomainTemplatesClient.parseNotificationResponse(res));
     }
 
@@ -187,7 +187,7 @@ export class DomainTemplatesClient implements IDomainTemplatesClient {
         templateName: string,
         data: DomainTemplateVersionData,
     ): Promise<CreateDomainTemplateVersionResult> {
-        return this.request.postWithFD(urljoin(this.baseRoute, domain, '/templates/', templateName, '/versions'), data)
+        return this.request.postWithFD(urlJoin(this.baseRoute, domain, '/templates/', templateName, '/versions'), data)
                    .then(
                        (res: CreateDomainTemplateVersionAPIResponse) => DomainTemplatesClient.parseCreationVersionResponse(res),
                    );
@@ -198,7 +198,7 @@ export class DomainTemplatesClient implements IDomainTemplatesClient {
         templateName: string,
         tag: string,
     ): Promise<DomainTemplateItem> {
-        return this.request.get(urljoin(this.baseRoute, domain, '/templates/', templateName, '/versions/', tag))
+        return this.request.get(urlJoin(this.baseRoute, domain, '/templates/', templateName, '/versions/', tag))
                    .then(
                        (res: GetDomainTemplateAPIResponse) => new DomainTemplateItem(res.body.template),
                    );
@@ -210,7 +210,7 @@ export class DomainTemplatesClient implements IDomainTemplatesClient {
         tag: string,
         data: DomainTemplateUpdateVersionData,
     ): Promise<MutateDomainTemplateVersionResult> {
-        return this.request.putWithFD(urljoin(this.baseRoute, domain, '/templates/', templateName, '/versions/', tag), data)
+        return this.request.putWithFD(urlJoin(this.baseRoute, domain, '/templates/', templateName, '/versions/', tag), data)
                    .then(
                        // eslint-disable-next-line max-len
                        (res: MutateDomainTemplateVersionAPIResponse) => DomainTemplatesClient.parseMutateTemplateVersionResponse(res),
@@ -222,7 +222,7 @@ export class DomainTemplatesClient implements IDomainTemplatesClient {
         templateName: string,
         tag: string,
     ): Promise<MutateDomainTemplateVersionResult> {
-        return this.request.delete(urljoin(this.baseRoute, domain, '/templates/', templateName, '/versions/', tag))
+        return this.request.delete(urlJoin(this.baseRoute, domain, '/templates/', templateName, '/versions/', tag))
             // eslint-disable-next-line max-len
                    .then((res: MutateDomainTemplateVersionAPIResponse) => DomainTemplatesClient.parseMutateTemplateVersionResponse(res));
     }
@@ -232,7 +232,7 @@ export class DomainTemplatesClient implements IDomainTemplatesClient {
         templateName: string,
         query?: DomainTemplatesQuery,
     ): Promise<ListDomainTemplateVersionsResult> {
-        return this.request.get(urljoin(this.baseRoute, domain, '/templates', templateName, '/versions'), query)
+        return this.request.get(urlJoin(this.baseRoute, domain, '/templates', templateName, '/versions'), query)
                    .then(
                        (res: ListDomainTemplateVersionsAPIResponse) => DomainTemplatesClient.parseListTemplateVersions(res),
                    );

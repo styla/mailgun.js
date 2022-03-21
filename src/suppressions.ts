@@ -1,6 +1,3 @@
-/* eslint-disable camelcase */
-import urljoin from 'url-join';
-
 import { Request } from './request';
 import {
     BounceData,
@@ -18,6 +15,7 @@ import {
     UnsubscribeData,
     WhiteListData,
 } from './interfaces/Supressions';
+import { urlJoin } from './utils/urlJoin';
 
 const createOptions = {
     headers: { 'Content-Type': 'application/json' },
@@ -158,7 +156,7 @@ export class SuppressionClient {
         const model = (this.models)[type];
 
         return this.request
-                   .get(urljoin('v3', domain, type), query)
+                   .get(urlJoin('v3', domain, type), query)
                    .then((response: { body: { items: any, paging: any } }) => this._parseList(response, model));
     }
 
@@ -170,7 +168,7 @@ export class SuppressionClient {
         const model = (this.models)[type];
 
         return this.request
-                   .get(urljoin('v3', domain, type, encodeURIComponent(address)))
+                   .get(urlJoin('v3', domain, type, encodeURIComponent(address)))
                    .then((response: { body: any }) => this._parseItem(response, model));
     }
 
@@ -192,7 +190,7 @@ export class SuppressionClient {
         }
 
         return this.request
-                   .post(urljoin('v3', domain, type), JSON.stringify(postData), createOptions)
+                   .post(urlJoin('v3', domain, type), JSON.stringify(postData), createOptions)
                    .then((response: { body: any }) => response.body);
     }
 
@@ -202,7 +200,7 @@ export class SuppressionClient {
         address: string,
     ) {
         return this.request
-                   .delete(urljoin('v3', domain, type, encodeURIComponent(address)))
+                   .delete(urlJoin('v3', domain, type, encodeURIComponent(address)))
                    .then((response: { body: any }) => response.body);
     }
 
@@ -211,7 +209,7 @@ export class SuppressionClient {
         data: any,
     ) {
         return this.request
-                   .postWithFD(urljoin('v3', domain, 'whitelists'), data, createOptions)
+                   .postWithFD(urlJoin('v3', domain, 'whitelists'), data)
                    .then((response: { body: any }) => response.body);
     }
 }

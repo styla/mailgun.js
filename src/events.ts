@@ -1,7 +1,7 @@
-import urljoin from 'url-join';
 import { EventsList, EventsPage, EventsResponse, PagesListAccumulator, ParsedPagesList } from './interfaces/Events';
 
 import { Request } from './request';
+import { urlJoin } from './utils/urlJoin';
 
 export class EventClient {
     request: Request;
@@ -50,10 +50,10 @@ export class EventClient {
         let url;
         const queryCopy = { ...query };
         if (queryCopy && queryCopy.page) {
-            url = urljoin('/v3', domain, 'events', queryCopy.page);
+            url = urlJoin('/v3', domain, 'events', queryCopy.page);
             delete queryCopy.page;
         } else {
-            url = urljoin('/v3', domain, 'events');
+            url = urlJoin('/v3', domain, 'events');
         }
         return this.request.get(url, queryCopy)
                    .then((response: EventsResponse) => this._parseEventList(response));

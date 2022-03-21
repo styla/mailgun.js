@@ -1,5 +1,4 @@
 import NodeFormData from 'form-data';
-import urljoin from 'url-join';
 import fetch from 'node-fetch';
 import { APIError } from './error';
 import { RequestOptions } from './interfaces/RequestOptions';
@@ -7,6 +6,7 @@ import { APIErrorOptions } from './interfaces/APIErrorOptions';
 import { InputFormData } from './interfaces/IFormData';
 import { APIResponse } from './interfaces/ApiResponse';
 import { MailgunOptions } from './interfaces/MailgunOptions';
+import { urlJoin } from './utils/urlJoin';
 
 const isStream = (attachment: any) => typeof attachment === 'object' && typeof attachment.pipe === 'function';
 
@@ -102,7 +102,7 @@ export class Request {
         }
 
         const response = await fetch(
-            urljoin(this.url, url),
+            urlJoin(this.url, url),
             {
                 method: method.toLocaleUpperCase(),
                 headers,

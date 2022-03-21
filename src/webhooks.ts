@@ -1,7 +1,6 @@
-import urljoin from 'url-join';
-
 import { ValidationResponse, WebhookList, WebhookResponse, WebhooksIds, WebhooksQuery } from './interfaces/Webhooks';
 import { Request } from './request';
+import { urlJoin } from './utils/urlJoin';
 
 class Webhook {
     id: string;
@@ -49,7 +48,7 @@ export class WebhookClient {
         domain: string,
         query: WebhooksQuery,
     ): Promise<WebhookList> {
-        return this.request.get(urljoin('/v3/domains', domain, 'webhooks'), query)
+        return this.request.get(urlJoin('/v3/domains', domain, 'webhooks'), query)
                    .then(this._parseWebhookList);
     }
 
@@ -57,7 +56,7 @@ export class WebhookClient {
         domain: string,
         id: WebhooksIds,
     ): Promise<Webhook> {
-        return this.request.get(urljoin('/v3/domains', domain, 'webhooks', id))
+        return this.request.get(urlJoin('/v3/domains', domain, 'webhooks', id))
                    .then(this._parseWebhookWithID(id));
     }
 
@@ -68,11 +67,11 @@ export class WebhookClient {
         test = false,
     ): Promise<Webhook | ValidationResponse> {
         if (test) {
-            return this.request.putWithFD(urljoin('/v3/domains', domain, 'webhooks', id, 'test'), { url })
+            return this.request.putWithFD(urlJoin('/v3/domains', domain, 'webhooks', id, 'test'), { url })
                        .then(this._parseWebhookTest);
         }
 
-        return this.request.postWithFD(urljoin('/v3/domains', domain, 'webhooks'), { id, url })
+        return this.request.postWithFD(urlJoin('/v3/domains', domain, 'webhooks'), { id, url })
                    .then(this._parseWebhookWithID(id));
     }
 
@@ -81,7 +80,7 @@ export class WebhookClient {
         id: string,
         url: string,
     ): Promise<Webhook> {
-        return this.request.putWithFD(urljoin('/v3/domains', domain, 'webhooks', id), { url })
+        return this.request.putWithFD(urlJoin('/v3/domains', domain, 'webhooks', id), { url })
                    .then(this._parseWebhookWithID(id));
     }
 
@@ -89,7 +88,7 @@ export class WebhookClient {
         domain: string,
         id: string,
     ): Promise<Webhook> {
-        return this.request.delete(urljoin('/v3/domains', domain, 'webhooks', id))
+        return this.request.delete(urlJoin('/v3/domains', domain, 'webhooks', id))
                    .then(this._parseWebhookWithID(id));
     }
 }
