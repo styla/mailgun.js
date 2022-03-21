@@ -1,4 +1,3 @@
-import urljoin from 'url-join';
 import { APIResponse } from './interfaces/ApiResponse';
 import { Request } from './request';
 
@@ -13,6 +12,7 @@ import {
     IDomainCredentials,
     UpdateDomainCredentialsData,
 } from './interfaces/DomainCredentials';
+import { urlJoin } from './utils/urlJoin';
 
 export class DomainCredentialsClient implements IDomainCredentials {
     baseRoute: string;
@@ -55,7 +55,7 @@ export class DomainCredentialsClient implements IDomainCredentials {
         domain: string,
         query?: DomainCredentialsQuery,
     ): Promise<DomainCredentialsList> {
-        return this.request.get(urljoin(this.baseRoute, domain, '/credentials'), query)
+        return this.request.get(urlJoin(this.baseRoute, domain, '/credentials'), query)
                    .then(
                        (res: APIResponse) => DomainCredentialsClient._parseDomainCredentialsList(res as DomainCredentialsResponseData),
                    );
