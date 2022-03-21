@@ -1,9 +1,9 @@
-import APIResponse from './interfaces/ApiResponse';
+import { APIResponse } from './interfaces/ApiResponse';
 import { IMultipleValidationClient } from './interfaces/MultipleValidation';
 import { ValidationResponse, ValidationResult } from './interfaces/Validate';
-import Request from './request';
+import { Request } from './request';
 
-export default class ValidateClient {
+export class ValidateClient {
     public multipleValidation;
     request: Request;
 

@@ -1,8 +1,8 @@
-import Client from './client';
+import { Client } from './client';
 import { InputFormData } from './interfaces/IFormData';
-import Options from './interfaces/Options';
+import { Options } from './interfaces/Options';
 
-export default class Mailgun {
+export class Mailgun {
     private readonly formData: InputFormData;
 
     constructor(FormData: InputFormData) {

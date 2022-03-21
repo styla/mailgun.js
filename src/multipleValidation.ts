@@ -5,9 +5,9 @@ import {
     MultipleValidationJob,
     MultipleValidationJobsListResult,
 } from './interfaces/MultipleValidation';
-import Request from './request';
+import { Request } from './request';
 
-export default class MultipleValidationClient implements IMultipleValidationClient {
+export class MultipleValidationClient implements IMultipleValidationClient {
     request: Request;
 
     constructor(request: Request) {

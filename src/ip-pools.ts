@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
-import Request from './request';
+import { Request } from './request';
 
 import { IpPool, IpPoolListResponse, IpPoolUpdateData } from './interfaces/IpPools';
 
-export default class IpPoolsClient {
+export class IpPoolsClient {
     request: Request;
 
     constructor(request: Request) {

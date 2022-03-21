@@ -1,4 +1,4 @@
-import Request from './request';
+import { Request } from './request';
 import {
     CreateUpdateMailListMembers,
     CreateUpdateMailListMembersReq,
@@ -11,7 +11,7 @@ import {
     NewMultipleMembersResponse,
 } from './interfaces/mailListMembers';
 
-export default class MailListsMembers implements IMailListsMembers {
+export class MailListsMembers implements IMailListsMembers {
     baseRoute: string;
     request: Request;
 

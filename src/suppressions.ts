@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import urljoin from 'url-join';
 
-import Request from './request';
+import { Request } from './request';
 import {
     BounceData,
     ComplaintData,
@@ -81,7 +81,7 @@ class WhiteList implements IWhiteList {
 
 type TModel = typeof Bounce | typeof Complaint | typeof Unsubscribe | typeof WhiteList;
 
-export default class SuppressionClient {
+export class SuppressionClient {
     request: any;
     models: {
         bounces: typeof Bounce;
@@ -215,5 +215,3 @@ export default class SuppressionClient {
                    .then((response: { body: any }) => response.body);
     }
 }
-
-module.exports = SuppressionClient;

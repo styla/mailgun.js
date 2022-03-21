@@ -1,7 +1,7 @@
 import urljoin from 'url-join';
 
 import { ValidationResponse, WebhookList, WebhookResponse, WebhooksIds, WebhooksQuery } from './interfaces/Webhooks';
-import Request from './request';
+import { Request } from './request';
 
 class Webhook {
     id: string;
@@ -16,7 +16,7 @@ class Webhook {
     }
 }
 
-export default class WebhookClient {
+export class WebhookClient {
     request: Request;
 
     constructor(request: Request) {

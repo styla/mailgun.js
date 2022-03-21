@@ -6,3 +6,7 @@ build
 ./test.js
 .idea/
 dist/
+src/*.js
+src/**.js
+src/**.d.ts
+src/**.map

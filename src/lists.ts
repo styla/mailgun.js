@@ -1,8 +1,8 @@
-import Request from './request';
+import { Request } from './request';
 import { CreateUpdateList, DestroyedList, ListsQuery, MailingList } from './interfaces/lists';
 import { IMailListsMembers } from './interfaces/mailListMembers';
 
-export default class ListsClient {
+export class ListsClient {
     baseRoute: string;
     request: Request;
     members: IMailListsMembers;

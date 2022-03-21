@@ -1,6 +1,6 @@
 import urljoin from 'url-join';
-import APIResponse from './interfaces/ApiResponse';
-import Request from './request';
+import { APIResponse } from './interfaces/ApiResponse';
+import { Request } from './request';
 
 import {
     DomainTagAPIResponseStatsItem,
@@ -60,7 +60,7 @@ export class DomainTagStatistic implements DomainTagStatisticResult {
     }
 }
 
-export default class DomainTagsClient implements IDomainTagsClient {
+export class DomainTagsClient implements IDomainTagsClient {
     baseRoute: string;
     request: Request;
 

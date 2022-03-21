@@ -1,7 +1,7 @@
 import { CreateUpdateRouteData, DestroyRouteResponse, Route, RoutesListQuery, UpdateRouteResponse } from './interfaces/routes';
-import Request from './request';
+import { Request } from './request';
 
-export default class RoutesClient {
+export class RoutesClient {
     request: Request;
 
     constructor(request: Request) {

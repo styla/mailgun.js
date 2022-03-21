@@ -1,11 +1,12 @@
 import NodeFormData from 'form-data';
 import urljoin from 'url-join';
 import fetch from 'node-fetch';
-import APIError from './error';
-import RequestOptions from './interfaces/RequestOptions';
-import APIErrorOptions from './interfaces/APIErrorOptions';
+import { APIError } from './error';
+import { RequestOptions } from './interfaces/RequestOptions';
+import { APIErrorOptions } from './interfaces/APIErrorOptions';
 import { InputFormData } from './interfaces/IFormData';
-import APIResponse from './interfaces/ApiResponse';
+import { APIResponse } from './interfaces/ApiResponse';
+import { Options } from './interfaces/Options';
 
 const isStream = (attachment: any) => typeof attachment === 'object' && typeof attachment.pipe === 'function';
 
@@ -43,7 +44,7 @@ const streamToString = (stream: any) => {
     });
 };
 
-class Request {
+export class Request {
     private readonly username: string;
     private readonly key: string;
     private readonly url: string;
@@ -52,7 +53,7 @@ class Request {
     private readonly FormDataConstructor: InputFormData;
 
     constructor(
-        options: RequestOptions,
+        options: Options & RequestOptions,
         formData: InputFormData,
     ) {
         this.username = options.username;
@@ -317,5 +318,3 @@ class Request {
         }
     }
 }
-
-export default Request;

@@ -1,6 +1,6 @@
-import APIErrorOptions from './interfaces/APIErrorOptions';
+import { APIErrorOptions } from './interfaces/APIErrorOptions';
 
-export default class APIError extends Error {
+export class APIError extends Error {
     status: number | string;
     stack: string;
     details: string;

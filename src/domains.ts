@@ -23,11 +23,11 @@ import {
     WebPrefixInfo,
 } from './interfaces/Domains';
 
-import APIResponse from './interfaces/ApiResponse';
-import APIError from './error';
-import APIErrorOptions from './interfaces/APIErrorOptions';
+import { APIResponse } from './interfaces/ApiResponse';
+import { APIError } from './error';
+import { APIErrorOptions } from './interfaces/APIErrorOptions';
 
-import Request from './request';
+import { Request } from './request';
 import {
     ClickTrackingInfo,
     DomainTrackingData,
@@ -39,10 +39,10 @@ import {
 } from './interfaces/DomainTracking';
 import { IDomainCredentials } from './interfaces/DomainCredentials';
 import { IDomainTemplatesClient } from './interfaces/DomainTemplates';
-import DomainCredentialsClient from './domainsCredentials';
-import DomainTemplatesClient from './domainsTemplates';
+import { DomainCredentialsClient } from './domainsCredentials';
+import { DomainTemplatesClient } from './domainsTemplates';
 import { IDomainTagsClient } from './interfaces/DomainTags';
-import DomainTagsClient from './domainsTags';
+import { DomainTagsClient } from './domainsTags';
 
 export class Domain {
     name: string;
@@ -79,7 +79,7 @@ export class Domain {
     }
 }
 
-export default class DomainClient {
+export class DomainClient {
     request: Request;
     public domainCredentials: IDomainCredentials;
     public domainTemplates: IDomainTemplatesClient;

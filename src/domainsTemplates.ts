@@ -1,6 +1,6 @@
 import urljoin from 'url-join';
-import APIResponse from './interfaces/ApiResponse';
-import Request from './request';
+import { APIResponse } from './interfaces/ApiResponse';
+import { Request } from './request';
 
 import {
     CreateDomainTemplateAPIResponse,
@@ -62,7 +62,7 @@ export class DomainTemplateItem implements DomainTemplate {
     }
 }
 
-export default class DomainTemplatesClient implements IDomainTemplatesClient {
+export class DomainTemplatesClient implements IDomainTemplatesClient {
     baseRoute: string;
     request: Request;
 

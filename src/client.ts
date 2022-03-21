@@ -1,27 +1,26 @@
 /* eslint-disable camelcase */
-import Request from './request';
-import Options from './interfaces/Options';
-import RequestOptions from './interfaces/RequestOptions';
+import { Request } from './request';
+import { Options } from './interfaces/Options';
 
-import DomainClient from './domains';
-import EventClient from './events';
-import StatsClient from './stats';
-import SuppressionClient from './suppressions';
-import WebhookClient from './webhooks';
-import MessagesClient from './messages';
-import RoutesClient from './routes';
-import ValidateClient from './validate';
-import IpsClient from './ips';
-import IpPoolsClient from './ip-pools';
-import ListsClient from './lists';
-import MailListsMembers from './mailListMembers';
+import { DomainClient } from './domains';
+import { EventClient } from './events';
+import { StatsClient } from './stats';
+import { SuppressionClient } from './suppressions';
+import { WebhookClient } from './webhooks';
+import { MessagesClient } from './messages';
+import { RoutesClient } from './routes';
+import { ValidateClient } from './validate';
+import { IpsClient } from './ips';
+import { IpPoolsClient } from './ip-pools';
+import { ListsClient } from './lists';
+import { MailListsMembers } from './mailListMembers';
 import { InputFormData } from './interfaces/IFormData';
-import DomainCredentialsClient from './domainsCredentials';
-import MultipleValidationClient from './multipleValidation';
-import DomainTemplatesClient from './domainsTemplates';
-import DomainTagsClient from './domainsTags';
+import { DomainCredentialsClient } from './domainsCredentials';
+import { MultipleValidationClient } from './multipleValidation';
+import { DomainTemplatesClient } from './domainsTemplates';
+import { DomainTagsClient } from './domainsTags';
 
-export default class Client {
+export class Client {
     public domains;
     public webhooks;
     public events;
@@ -39,7 +38,7 @@ export default class Client {
         options: Options,
         formData: InputFormData,
     ) {
-        const config: RequestOptions = { ...options } as RequestOptions;
+        const config: Options = { ...options };
 
         if (!config.url) {
             config.url = 'https://api.mailgun.net';
@@ -54,7 +53,17 @@ export default class Client {
         }
 
         /** @internal */
-        this.request = new Request(config, formData);
+        this.request =
+            new Request(
+                {
+                    ...config,
+
+                    headers: {},
+                    timeout: config.timeout!,
+                },
+                formData,
+            );
+
         const mailListsMembers = new MailListsMembers(this.request);
         const domainCredentialsClient = new DomainCredentialsClient(this.request);
         const domainTemplatesClient = new DomainTemplatesClient(this.request);
@@ -67,6 +76,7 @@ export default class Client {
             domainTemplatesClient,
             domainTagsClient,
         );
+
         this.webhooks = new WebhookClient(this.request);
         this.events = new EventClient(this.request);
         this.stats = new StatsClient(this.request);

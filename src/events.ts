@@ -1,9 +1,9 @@
 import urljoin from 'url-join';
 import { EventsList, EventsPage, EventsResponse, PagesListAccumulator, ParsedPagesList } from './interfaces/Events';
 
-import Request from './request';
+import { Request } from './request';
 
-export default class EventClient {
+export class EventClient {
     request: Request;
 
     constructor(request: Request) {

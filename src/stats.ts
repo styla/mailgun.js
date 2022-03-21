@@ -1,5 +1,5 @@
 import urljoin from 'url-join';
-import Request from './request';
+import { Request } from './request';
 import { Stat, StatsOptions, StatsQuery } from './interfaces/StatsOptions';
 
 class Stats {
@@ -20,7 +20,7 @@ class Stats {
     }
 }
 
-export default class StatsClient {
+export class StatsClient {
     request: Request;
 
     constructor(request: Request) {
